@@ -1,7 +1,9 @@
 <?php
 namespace WhmcsApi;
 
-abstract class Base
+use Curl\Curl;
+
+abstract class Base extends Curl
 {
     private $action;
     private $url;
@@ -20,14 +22,18 @@ abstract class Base
         $this->username = $username;
         $this->password = $password;
 
-        if(is_null($url))
+        if(is_null($url) and isset($_ENV['WHMCSAPI_URL']))
             $this->url = $_ENV['WHMCSAPI_URL'];
 
-        if(is_null($username))
+        if(is_null($username) and isset($_ENV['WHMCSAPI_USERNAME']))
             $this->username = $_ENV['WHMCSAPI_USERNAME'];
 
-        if(is_null($password))
+        if(is_null($password) and isset($_ENV['WHMCSAPI_PASSWORD']))
             $this->password = $_ENV['WHMCSAPI_PASSWORD'];
+
+        $this->isValidExistAuth();
+
+        parent::__construct();
     }
 
     /**
@@ -122,40 +128,19 @@ abstract class Base
 
     public function exec()
     {
+        $this->isValidFieldRequired();
+        $this->isValidFieldRequiredBasic();
         $postfields = $this->mountPostfields();
 
-        $postfields = array_filter($postfields);
-        $postfields = array_map(
-            function($map) {
-
-                if($map instanceof \DateTime)
-                    return $map->format('Ymd');
-
-                return $map;
-            },
-            array_filter($postfields));
-
-        return $this->sendApi($postfields);
-    }
-
-    private function sendApi($postfields)
-    {
         $url = $this->getUrl();
         $postfields["action"] = $this->getAction();
         $postfields["username"] = $this->getUsername();
-        $postfields["password"] = $this->getPassword();
+        $postfields["password"] = $this->getPasswordMD5();
         $postfields["responsetype"] = $this->getResponsetype();
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 100);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        $data = json_decode($data);
+        $curl = new Curl();
+        $curl->post($url, $postfields);
+        $data = $curl->response;
 
         if ($data->result == "success")
             return true;
@@ -163,14 +148,45 @@ abstract class Base
         $this->throwException($data, $postfields);
     }
 
+    public function getPasswordMD5()
+    {
+        return md5($this->password);
+    }
+
+    /**
+     * verifica se os parametros de para fazer a conexão existe
+     * @return bool
+     * @throws Exception
+     */
+    private function isValidExistAuth()
+    {
+        switch(true)
+        {
+            case is_null($this->getUrl()):
+            case is_null($this->getUsername()):
+            case is_null($this->getPassword()):
+                throw new Exception('Url, username ou password não informados no construtor do objeto ou na variável de ambeiente.');
+                break;
+        }
+
+        return true;
+    }
+
+    public function isValidFieldRequiredBasic()
+    {
+        if(is_null($this->getAction()))
+            throw new Exception('Action não informada.');
+        return true;
+    }
+
     /**
      * aqui vai ser implementado todas as mensagens de lançamento de exeções.
-     * @param \ArrayObject $data
+     * @param $data
      * @param array $postfields
      * @return Exception
      * @throws Exception
      */
-    protected abstract function throwException(\ArrayObject $data, array $postfields);
+    public abstract function throwException($data, array $postfields);
 
     /**
      * @return Array

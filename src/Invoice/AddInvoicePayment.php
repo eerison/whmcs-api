@@ -88,7 +88,7 @@ class AddInvoicePayment extends Base
      * @param Carbon $date
      * @return AddInvoicePayment
      */
-    public function setDate($date)
+    public function setDate(Carbon $date)
     {
         $this->date = $date;
         return $this;
@@ -148,6 +148,9 @@ class AddInvoicePayment extends Base
         return $this;
     }
 
+    /**
+     * @return Array
+     */
     public function mountPostfields()
     {
         $postfields["invoiceid"]     = $this->getInvoiceid();
@@ -155,17 +158,29 @@ class AddInvoicePayment extends Base
         $postfields["amount"]        = $this->getAmount();
         $postfields["gateway"]       = $this->getGateway();
 
+        $postfields = [
+            'invoiceid' => $this->getInvoiceid(),
+            'transid' => $this->getTransid(),
+            'gateway' => $this->getGateway(),
+            'date' => $this->getDate(),
+            'amount' => $this->getAmount(),
+            'fees' => $this->getFees(),
+            'noemail' => $this->isNoemail(),
+        ];
+
+        $postfields = array_filter($postfields);
+
         return $postfields;
     }
 
     /**
-     * aqui vai ser implementado todas as mensagens de lançamento de exeções.
-     * @param \ArrayObject $data
+     * aqui vai ser implementado todas as mensagens de lançamento de Exception.
+     * @param $data
      * @param array $postfields
      * @return Exception
      * @throws Exception
      */
-    protected function throwException(\ArrayObject $data, array $postfields)
+    public function throwException($data, array $postfields)
     {
         if($data->message == 'Invoice ID Not Found')
             throw new Exception(sprintf('Invoice #%s não encontrada.', $postfields['invoiceid']), 20);
@@ -187,7 +202,6 @@ class AddInvoicePayment extends Base
     {
         switch(true)
         {
-            case is_null($this->getAction()):
             case is_null($this->getInvoiceid()):
             case is_null($this->getTransid()):
             case is_null($this->getGateway()):
