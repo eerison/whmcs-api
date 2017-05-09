@@ -1,0 +1,19 @@
+{
+    "name": "eerison/whmcs-api",
+    "description": "Lib api externa whmcs",
+    "authors": [
+        {
+            "name": "Erison Silva",
+            "email": "erison.sdn@gmail.com"
+        }
+    ],
+    "autoload":{
+        "psr-4":{
+            "WhmcsApi\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=5.6",
+        "nesbot/carbon": "^1.22"
+    }
+}
