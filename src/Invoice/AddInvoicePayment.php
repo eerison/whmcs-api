@@ -22,6 +22,12 @@ class AddInvoicePayment extends Base
     /** @var  bool $noemail */
     private $noemail;
 
+    public function __construct($url = null, $username = null, $password = null)
+    {
+        parent::__construct($url, $username, $password);
+        $this->setAction('AddInvoicePayment');
+    }
+
     /**
      * @return int
      */
@@ -81,7 +87,10 @@ class AddInvoicePayment extends Base
      */
     public function getDate()
     {
-        return $this->date;
+        if(is_null($this->date))
+            return $this->date;
+
+        return $this->date->format('Y-m-d H:i:s');
     }
 
     /**

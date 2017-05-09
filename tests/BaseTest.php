@@ -7,15 +7,6 @@ use WhmcsApi\Exception;
 
 class BaseTest extends TestCase
 {
-    /**
-     * @expectedException        Exception
-     * @expectedExceptionMessage Action não informada.
-     */
-    public function testIsValidFieldRequiredBasic()
-    {
-        $base = new myBase('url','username','password');
-        $base->isValidFieldRequiredBasic();
-    }
 
     /**
      * Verifica se todos os parametros obrigatórios do base estão informados.
@@ -24,7 +15,6 @@ class BaseTest extends TestCase
     public function testIsValidFieldRequiredBasicAccept()
     {
         $base = new myBase('url','username','password');
-        $base->setAction('AddInvoicePayment');
         $this->assertTrue($base->isValidFieldRequiredBasic());
     }
 
@@ -72,7 +62,11 @@ class BaseTest extends TestCase
 class myBase extends Base
 {
 
-
+    public function __construct($url = null, $username = null, $password = null)
+    {
+        $this->setAction('AddInvoicePayment');
+        parent::__construct($url, $username, $password);
+    }
     /**
      * @return Array
      */

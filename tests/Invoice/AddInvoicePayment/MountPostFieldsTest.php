@@ -14,7 +14,7 @@ class MountPostFieldsTest extends TestCase
             ->setInvoiceid(1)
             ->setTransid('transid')
             ->setGateway('gateway')
-            ->setDate(Carbon::createFromDate(2017,5,9,'America/Fortaleza'))
+            ->setDate(Carbon::instance(new \DateTime('2017-05-09 11:12:23')))
             ->setAmount(50.5)
             ->setFees(50.5)
             ->setNoemail(true)
@@ -24,7 +24,7 @@ class MountPostFieldsTest extends TestCase
             'invoiceid' => 1,
             'transid' => 'transid',
             'gateway' => 'gateway',
-            'date' => Carbon::createFromDate(2017,5,9,'America/Fortaleza'),
+            'date' => '2017-05-09 11:12:23',
             'amount' => 50.5,
             'fees' => 50.5,
             'noemail' => true,

@@ -39,7 +39,7 @@ abstract class Base extends Curl
     /**
      * @return mixed
      */
-    public function getAction()
+    protected function getAction()
     {
         return $this->action;
     }
@@ -48,7 +48,7 @@ abstract class Base extends Curl
      * @param mixed $action
      * @return Api
      */
-    public function setAction($action)
+    protected function setAction($action)
     {
         $this->action = $action;
         return $this;
@@ -140,7 +140,7 @@ abstract class Base extends Curl
 
         $curl = new Curl();
         $curl->post($url, $postfields);
-        $data = $curl->response;
+        $data = json_decode($curl->response);
 
         if ($data->result == "success")
             return true;
