@@ -1,6 +1,7 @@
 {
     "name": "eerison/whmcs-api",
     "description": "Lib api externa whmcs",
+    "type": "library",
     "authors": [
         {
             "name": "Erison Silva",
