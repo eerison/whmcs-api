@@ -22,13 +22,13 @@ abstract class Base extends Curl
         $this->username = $username;
         $this->password = $password;
 
-        if(is_null($url) and isset($_ENV['WHMCSAPI_URL']))
+        if(is_null($url) && isset($_ENV['WHMCSAPI_URL']))
             $this->url = $_ENV['WHMCSAPI_URL'];
 
-        if(is_null($username) and isset($_ENV['WHMCSAPI_USERNAME']))
+        if(is_null($username) && isset($_ENV['WHMCSAPI_USERNAME']))
             $this->username = $_ENV['WHMCSAPI_USERNAME'];
 
-        if(is_null($password) and isset($_ENV['WHMCSAPI_PASSWORD']))
+        if(is_null($password) && isset($_ENV['WHMCSAPI_PASSWORD']))
             $this->password = $_ENV['WHMCSAPI_PASSWORD'];
 
         $this->isValidExistAuth();

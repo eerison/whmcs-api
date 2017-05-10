@@ -1,6 +1,7 @@
 # WhmcsApi
 
 [![Build Status](https://travis-ci.org/eerison/whmcs-api.svg?branch=master)](https://travis-ci.org/eerison/whmcs-api)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/26c2079f-4e2b-4bd4-959c-5bf23558c028/mini.png)](https://insight.sensiolabs.com/projects/26c2079f-4e2b-4bd4-959c-5bf23558c028)
 
 Projeto para utilizar api externa do whmcs!
 

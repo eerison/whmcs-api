@@ -2,6 +2,7 @@
     "name": "eerison/whmcs-api",
     "description": "Lib api externa whmcs",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Erison Silva",
