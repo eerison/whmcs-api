@@ -9,7 +9,7 @@ class ValidFieldRequiredTest extends TestCase
 {
     /**
      * @expectedException        Exception
-     * @expectedExceptionMessage Informe todos os campos obrigatórios [action, invoiceid, transid, gateway].
+     * @expectedExceptionMessage Informe todos os campos obrigatórios [invoiceid, transid, gateway].
      */
     public function testRequiredInvoiceid()
     {
@@ -23,7 +23,7 @@ class ValidFieldRequiredTest extends TestCase
 
     /**
      * @expectedException        Exception
-     * @expectedExceptionMessage Informe todos os campos obrigatórios [action, invoiceid, transid, gateway].
+     * @expectedExceptionMessage Informe todos os campos obrigatórios [invoiceid, transid, gateway].
      */
     public function testRequiredTransid()
     {
@@ -37,7 +37,7 @@ class ValidFieldRequiredTest extends TestCase
 
     /**
      * @expectedException        Exception
-     * @expectedExceptionMessage Informe todos os campos obrigatórios [action, invoiceid, transid, gateway].
+     * @expectedExceptionMessage Informe todos os campos obrigatórios [invoiceid, transid, gateway].
      */
     public function testRequiredGateway()
     {
