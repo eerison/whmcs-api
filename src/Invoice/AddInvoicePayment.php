@@ -214,7 +214,7 @@ class AddInvoicePayment extends Base
             case is_null($this->getInvoiceid()):
             case is_null($this->getTransid()):
             case is_null($this->getGateway()):
-                throw new Exception('Informe todos os campos obrigatórios [action, invoiceid, transid, gateway].');
+                throw new Exception('Informe todos os campos obrigatórios [invoiceid, transid, gateway].');
                 break;
         }
 
