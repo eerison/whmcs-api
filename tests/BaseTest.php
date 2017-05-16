@@ -33,9 +33,9 @@ class BaseTest extends TestCase
      */
     public function testIsValidExistAuthENV()
     {
-        $_ENV['WHMCSAPI_URL'] = 'url';
-        $_ENV['WHMCSAPI_USERNAME'] = 'username';
-        $_ENV['WHMCSAPI_PASSWORD'] = 'password';
+        putenv('WHMCSAPI_URL=url');
+        putenv('WHMCSAPI_USERNAME=username');
+        putenv('WHMCSAPI_PASSWORD=password');
 
         new myBase();
     }
