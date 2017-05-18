@@ -14,13 +14,19 @@ Projeto para utilizar api externa do whmcs!
 
 composer require eerison/whmcs-api
 
-### Variáveis de ambiente
+### Configurar `app/config/config.yml`
 
-WHMCSAPI_URL
+``` yml
 
-WHMCSAPI_USERNAME
+...
+    whmcs:
+      api:
+        url : localhost
+        username : whmcs
+        password : whmcs    
+...
 
-WHMCSAPI_PASSWORD
+```
 
 ### Exemples
 
@@ -28,7 +34,7 @@ exemplo sem variável de ambiente
 
 ``` php
 try {
-    $payment = new \WhmcsApi\Invoice\AddInvoicePayment('https://urlapiwhmcs.com.br/api.php','username','password');
+    $payment = new \WhmcsApi\Invoice\AddInvoicePayment();
     $payment
         ->setInvoiceid(8542)
         ->setTransid('transação 1')
@@ -39,13 +45,4 @@ try {
 } catch (WhmcsApi\Exception $e) {
     echo $e->getMessage();
 }
-```
-
-Utilizando variáveis de ambiente não precisa informar os dados de autenticação no construtor do metodo.
-
-exemplo : 
-``` php
-...
-    $payment = new \WhmcsApi\Invoice\AddInvoicePayment();
-...
 ```
