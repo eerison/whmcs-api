@@ -14,30 +14,8 @@ class BaseTest extends TestCase
      */
     public function testIsValidFieldRequiredBasicAccept()
     {
-        $base = new myBase('url','username','password');
+        $base = new myBase();
         $this->assertTrue($base->isValidFieldRequiredBasic());
-    }
-
-    /**
-     * caso não tenha parametros para poder autenticar lança uma Exception.
-     * @expectedException        Exception
-     * @expectedExceptionMessage Url, username ou password não informados no construtor do objeto ou na variável de ambeiente.
-     */
-    public function testIsValidExistAuth()
-    {
-        new myBase();
-    }
-
-    /**
-     * Verifica se consegue inicializar apenas com variaveis de ambiente.
-     */
-    public function testIsValidExistAuthENV()
-    {
-        putenv('WHMCSAPI_URL=url');
-        putenv('WHMCSAPI_USERNAME=username');
-        putenv('WHMCSAPI_PASSWORD=password');
-
-        new myBase();
     }
 
     /**

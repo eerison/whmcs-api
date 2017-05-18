@@ -2,6 +2,7 @@
 namespace WhmcsApi;
 
 use Curl\Curl;
+use Symfony\Component\Yaml\Yaml;
 
 abstract class Base extends Curl
 {
@@ -16,20 +17,19 @@ abstract class Base extends Curl
      * @param int $username usuário para autenticar a api.
      * @param int $password senha para autenticar a api.
      */
-    public function __construct($url = null, $username = null, $password = null)
+    public function __construct()
     {
-        $this->url = $url;
-        $this->username = $username;
-        $this->password = $password;
+        $config['whmcs']['api'] = ['url' => true, 'username' => true, 'password' => true];
+        $file   = 'app/config/config.yml';
 
-        if(is_null($url) && !empty(getenv('WHMCSAPI_URL')) )
-            $this->url = getenv('WHMCSAPI_URL');
+        if(file_exists($file))
+            $config = Yaml::parse(file_get_contents($file));
 
-        if(is_null($username) && !empty(getenv('WHMCSAPI_USERNAME')))
-            $this->username = getenv('WHMCSAPI_USERNAME');
+        $params = $config['whmcs']['api'];
 
-        if(is_null($password) && !empty(getenv('WHMCSAPI_PASSWORD')))
-            $this->password = getenv('WHMCSAPI_PASSWORD');
+        $this->url = $params['url'];
+        $this->username = $params['username'];
+        $this->password = $params['password'];
 
         $this->isValidExistAuth();
 
